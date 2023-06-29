@@ -9,7 +9,16 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 const postsSlice = createSlice({
   name: 'posts',
   initialState: [],
-  reducers: {},
+  reducers: {
+    filterPosts: (state, action) => {
+      const searchTerm = action.payload.toLowerCase();
+      return state.filter((post) => {
+        const title = post.title.toLowerCase();
+        const body = post.body.toLowerCase();
+        return title.includes(searchTerm) || body.includes(searchTerm);
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -17,5 +26,7 @@ const postsSlice = createSlice({
       });
   },
 });
+
+export const { filterPosts } = postsSlice.actions;
 
 export default postsSlice.reducer;
