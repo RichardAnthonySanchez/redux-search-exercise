@@ -18,6 +18,25 @@ const postsSlice = createSlice({
         return title.includes(searchTerm) || body.includes(searchTerm);
       });
     },
+    sortPostsById: (state) => {
+      return [...state].sort((a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      });
+    },
+    sortPostsByTitle: (state) => {
+      return [...state].sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
+    },
+    reversePosts: (state) => {
+      return [...state].reverse();
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -27,6 +46,6 @@ const postsSlice = createSlice({
   },
 });
 
-export const { filterPosts } = postsSlice.actions;
+export const { filterPosts, sortPostsById, sortPostsByTitle, reversePosts } = postsSlice.actions;
 
 export default postsSlice.reducer;
