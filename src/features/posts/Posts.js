@@ -11,29 +11,34 @@ const Posts = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const handleSearch = () => {
-    dispatch(filterPosts(searchTerm));
-  };
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
+    if (searchTerm === '') {
+      dispatch(fetchPosts());
+    } else {
+      dispatch(filterPosts(searchTerm));
+    }
+  };    
 
-  return (
+return (
+  <div>
     <div>
-      <div>
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h2>{post.title}</h2>
-          <p>{post.body}</p>
-        </div>
-      ))}
+      <input
+        type="text"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={handleSearch}
+      />
     </div>
-  );
-};
+    {posts.map((post) => (
+      <div key={post.id}>
+        <h2>{post.title}</h2>
+        <p>{post.body}</p>
+      </div>
+    ))}
+  </div>
+)};
+
 
 export default Posts;
